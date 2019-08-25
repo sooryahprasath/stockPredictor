@@ -1,5 +1,5 @@
 # Stock Predictor
-Stock Predictor with ML and Data Science Proposed Features  
+Stock Predictor with ML and Data Science Proposed Features.  
 
 -Fetch Stock History from Financial Data vendors i.e., Google Finance API 
 -Plot chronological graph of stock history 
