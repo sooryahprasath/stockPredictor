@@ -7,6 +7,10 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <script>
+
+  </script>
 </head>
 <body>
 
@@ -25,10 +29,38 @@
 </nav>
 
 <div class="container">
-  <h3>Basic Navbar Example</h3>
-  <p>A navigation bar is a navigation header that is placed at the top of the page.</p>
-  <img src="/plot.png" alt="my plot">
+  <h3>Overview of various Stock Projections</h3>
+  <p></p>
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12">
+      <div class="col-sm-6">
+      <img src="/plotMSFT.png" width="500" alt="my plot"></img>
+      <p align="center">{{ tickerMS }}</p>
+      </div>
+      <div class="col-sm-6">
+      <img src="/plotDIS.png" width="500" alt="my plot"></img>
+      <p align="center">{{ tickerDS }}</p>
+      </div>
+
+    </div>
+  </div>
+
+    <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12">
+      <div class="col-sm-6">
+      <img src="/plot.png" width="500" alt="my plot"></img>
+      <p align="center">{{ tickerMS }}</p>
+      </div>
+      <div class="col-sm-6">
+      <img src="/plot1.png" width="500" alt="my plot"></img>
+      <p align="center">{{ tickerDS }}</p>
+      </div>
+
+    </div>
+  </div>
+
 </div>
+
 
 </body>
 </html>
