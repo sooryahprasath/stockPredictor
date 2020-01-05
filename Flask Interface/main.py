@@ -46,6 +46,7 @@ def trends():
 def graph():
     return render_template('graph.html')
 
+#Json Capturing from quandl
 #jsonCapture = data.Close
 #jsonConvert = jsonCapture.to_json()
 #print(jsonConvert)
