@@ -22,14 +22,18 @@ app = Flask(__name__)
 quandl.ApiConfig.api_key = "PVFkPt8nSNtyGxSFUaSm"
 ticker_MSFT = "MSFT"
 ticker_DIS = "DIS"
-fetcher_MS = quandl.Dataset('EOD/'+ticker_MSFT).data().to_pandas()
-fetcher_DS = quandl.Dataset('EOD/'+ticker_DIS).data().to_pandas()
+ticker_BA = "BA"
+ticker_INTC = "INTC"
+fetcher_MS = quandl.Dataset('EOD/'+ticker_MSFT, start_date="2013-12-31", end_date="2014-12-31").data().to_pandas()
+fetcher_DS = quandl.Dataset('EOD/'+ticker_DIS, start_date="2013-12-31", end_date="2014-12-31").data().to_pandas()
+fetcher_BA = quandl.Dataset('EOD/'+ticker_BA, start_date="2013-12-31", end_date="2014-12-31").data().to_pandas()
+fetcher_INTC = quandl.Dataset('EOD/'+ticker_INTC, start_date="2013-12-31", end_date="2014-12-31").data().to_pandas()
 
 
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html', tickerMS=ticker_MSFT, tickerDS=ticker_DIS)
+    return render_template('home.html', tickerMS=ticker_MSFT, tickerDS=ticker_DIS, tickerBA=ticker_BA, tickerINTC=ticker_INTC)
 
 
 @app.route('/predict')
@@ -74,6 +78,34 @@ def plotDS():
     fig = Figure()
     p = fig.add_subplot(1, 1, 1)
     close = fetcher_DS['Close']
+    p.plot(close)
+    canvas = FigureCanvas(fig)
+    output = BytesIO()
+    canvas.print_png(output)
+    response = make_response(output.getvalue())
+    response.mimetype = 'image/png'
+    return response
+
+
+@app.route('/plot'+ticker_BA+'.png')
+def plotBA():
+    fig = Figure()
+    p = fig.add_subplot(1, 1, 1)
+    close = fetcher_BA['Close']
+    p.plot(close)
+    canvas = FigureCanvas(fig)
+    output = BytesIO()
+    canvas.print_png(output)
+    response = make_response(output.getvalue())
+    response.mimetype = 'image/png'
+    return response
+
+
+@app.route('/plot'+ticker_INTC+'.png')
+def plotINTC():
+    fig = Figure()
+    p = fig.add_subplot(1, 1, 1)
+    close = fetcher_INTC['Close']
     p.plot(close)
     canvas = FigureCanvas(fig)
     output = BytesIO()
