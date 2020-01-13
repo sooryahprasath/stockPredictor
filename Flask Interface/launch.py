@@ -15,8 +15,10 @@ from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from sklearn.model_selection import train_test_split
 import datetime
+import fetcher
 
 app = Flask(__name__)
+fetcher
 
 
 quandl.ApiConfig.api_key = "PVFkPt8nSNtyGxSFUaSm"
@@ -24,10 +26,10 @@ ticker_MSFT = "MSFT"
 ticker_DIS = "DIS"
 ticker_BA = "BA"
 ticker_INTC = "INTC"
-fetcher_MS = quandl.Dataset('EOD/'+ticker_MSFT, start_date="2013-12-31", end_date="2014-12-31").data().to_pandas()
-fetcher_DS = quandl.Dataset('EOD/'+ticker_DIS, start_date="2013-12-31", end_date="2014-12-31").data().to_pandas()
-fetcher_BA = quandl.Dataset('EOD/'+ticker_BA, start_date="2013-12-31", end_date="2014-12-31").data().to_pandas()
-fetcher_INTC = quandl.Dataset('EOD/'+ticker_INTC, start_date="2013-12-31", end_date="2014-12-31").data().to_pandas()
+fetcher_MS = quandl.Dataset('EOD/'+ticker_MSFT).data().to_pandas()
+fetcher_DS = quandl.Dataset('EOD/'+ticker_DIS).data().to_pandas()
+fetcher_BA = quandl.Dataset('EOD/'+ticker_BA).data().to_pandas()
+fetcher_INTC = quandl.Dataset('EOD/'+ticker_INTC).data().to_pandas()
 
 
 @app.route('/')
