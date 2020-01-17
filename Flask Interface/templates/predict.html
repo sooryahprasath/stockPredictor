@@ -25,8 +25,36 @@
 </nav>
 
 <div class="container">
-  <h3>Basic Navbar Example</h3>
-  <p>A navigation bar is a navigation header that is placed at the top of the page.</p>
+  <h3>Overview of various Stock Predictions</h3>
+  <p></p>
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12">
+      <div class="col-sm-6">
+      <img src="/plotPred_MSFT.png" width="500" alt="my plot"></img>
+      <p align="center">{{ tickerMS }} - {{ descMSFT }}</p>
+      </div>
+      <div class="col-sm-6">
+      <img src="/plotPred_DS.png" width="500" alt="my plot"></img>
+      <p align="center">{{ tickerDS }} - {{ descDIS }}</p>
+      </div>
+
+    </div>
+  </div>
+
+    <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12">
+      <div class="col-sm-6">
+      <img src="/plotPred_BA.png" width="500" alt="my plot"></img>
+      <p align="center">{{ tickerBA }} - {{ descBA }}</p>
+      </div>
+      <div class="col-sm-6">
+      <img src="/plotPred_INTC.png" width="500" alt="my plot"></img>
+      <p align="center">{{ tickerINTC }} - {{ descINTC }}</p>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 </body>
