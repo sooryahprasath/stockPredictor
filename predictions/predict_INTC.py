@@ -6,20 +6,19 @@ from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from sklearn.model_selection import train_test_split
 import datetime
+from assets import config, tickers
 
 #Get the stock data
-ticker = "MSFT"
-df = quandl.get("EOD/"+ticker, api_key="PVFkPt8nSNtyGxSFUaSm")
+df = quandl.get("EOD/"+tickers.ticker_INTC, api_key=config.key)
 #Plot a intial graph
 df.Close.plot()
-plt.title(ticker)
 #plt.show()
 
 df = df[['Close']]
 #print(df.head())
 
 # A variable for predicting 'n' days out into the future
-forecast_out = 100
+forecast_out = config.horizon
 
 #Create another column (the target ) shifted 'n' units up
 df['Prediction'] = df[['Close']].shift(-forecast_out)

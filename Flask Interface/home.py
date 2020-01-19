@@ -1,68 +1,50 @@
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
-from flask import Flask, render_template, make_response, jsonify
+from flask import Flask, render_template, make_response
 import quandl
 from io import BytesIO
-
-import predict_MSFT
-import predict_DIS
-import predict_BA
-import predict_INTC
+from predictions import predict_DIS, predict_BA, predict_MSFT, predict_INTC
+from assets import config, decorators, tickers
 
 app = Flask(__name__)
 
 
-quandl.ApiConfig.api_key = "PVFkPt8nSNtyGxSFUaSm"
-ticker_MSFT = "MSFT"
-ticker_DIS = "DIS"
-ticker_BA = "BA"
-ticker_INTC = "INTC"
-ticker_MSFTDESC = "Microsoft Corporation"
-ticker_DISDESC = "The Walt Disney Company"
-ticker_BADESC = "The Boeing Company"
-ticker_INTCDESC = "Intel Corporation"
-fetcher_MS = quandl.Dataset('EOD/'+ticker_MSFT).data().to_pandas()
-fetcher_DS = quandl.Dataset('EOD/'+ticker_DIS).data().to_pandas()
-fetcher_BA = quandl.Dataset('EOD/'+ticker_BA).data().to_pandas()
-fetcher_INTC = quandl.Dataset('EOD/'+ticker_INTC).data().to_pandas()
+# Json Capturing from quandl
+#jsonCapture = DataFrame(predict_INTC.df['Forecast'])
+#jsonConvert = jsonCapture.to_json(orient="values")
 
 
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html', tickerMS=ticker_MSFT, tickerDS=ticker_DIS, tickerBA=ticker_BA, tickerINTC=ticker_INTC,
-                           descMSFT=ticker_MSFTDESC, descDIS=ticker_DISDESC, descBA=ticker_BADESC, descINTC=ticker_INTCDESC)
+    return render_template('home.html', headTitle=decorators.title, tickerMS=tickers.ticker_MSFT, tickerDS=tickers.ticker_DIS,
+                           tickerBA=tickers.ticker_BA, tickerINTC=tickers.ticker_INTC, descMSFT=decorators.ticker_MSFTDESC,
+                           descDIS=decorators.ticker_DISDESC, descBA=decorators.ticker_BADESC, descINTC=decorators.ticker_INTCDESC)
 
 
 @app.route('/predict')
 def predict():
-    return render_template('predict.html', tickerMS=ticker_MSFT, tickerDS=ticker_DIS, tickerBA=ticker_BA, tickerINTC=ticker_INTC,
-                           descMSFT=ticker_MSFTDESC, descDIS=ticker_DISDESC, descBA=ticker_BADESC, descINTC=ticker_INTCDESC)
+    return render_template('predict.html', headTitle=decorators.title, tickerMS=tickers.ticker_MSFT, tickerDS=tickers.ticker_DIS,
+                           tickerBA=tickers.ticker_BA, tickerINTC=tickers.ticker_INTC, descMSFT=decorators.ticker_MSFTDESC,
+                           descDIS=decorators.ticker_DISDESC, descBA=decorators.ticker_BADESC, descINTC=decorators.ticker_INTCDESC,
+                           forcastPeriod=config.horizon)
 
 
 @app.route('/trends')
 def trends():
-    return render_template('trends.html')
+    return render_template('trends.html', headTitle=decorators.title)
 
 
 @app.route('/graph')
 def graph():
-    return render_template('graph.html')
-
-#Json Capturing from quandl
-#jsonCapture = data.Close
-#jsonConvert = jsonCapture.to_json()
-#print(jsonConvert)
-#@app.route('/json')
-#def jsonFetch():
-#    return jsonify({'close': jsonConvert})
+    return render_template('graph.html', headTitle=decorators.title)
 
 
-@app.route('/plot'+ticker_MSFT+'.png')
+@app.route('/plot' + tickers.ticker_MSFT + '.png')
 def plotMSFT():
-    fig = Figure()
+    fig = Figure(figsize=(10, 7))
     p = fig.add_subplot(1, 1, 1)
-    close = fetcher_MS['Close']
+    close = predict_MSFT.df[['Close']]
     p.plot(close)
     canvas = FigureCanvas(fig)
     output = BytesIO()
@@ -72,11 +54,11 @@ def plotMSFT():
     return response
 
 
-@app.route('/plot'+ticker_DIS+'.png')
+@app.route('/plot' + tickers.ticker_DIS + '.png')
 def plotDS():
-    fig = Figure()
+    fig = Figure(figsize=(10, 7))
     p = fig.add_subplot(1, 1, 1)
-    close = fetcher_DS['Close']
+    close = predict_DIS.df[['Close']]
     p.plot(close)
     canvas = FigureCanvas(fig)
     output = BytesIO()
@@ -86,11 +68,11 @@ def plotDS():
     return response
 
 
-@app.route('/plot'+ticker_BA+'.png')
+@app.route('/plot' + tickers.ticker_BA + '.png')
 def plotBA():
-    fig = Figure()
+    fig = Figure(figsize=(10, 7))
     p = fig.add_subplot(1, 1, 1)
-    close = fetcher_BA['Close']
+    close = predict_BA.df[['Close']]
     p.plot(close)
     canvas = FigureCanvas(fig)
     output = BytesIO()
@@ -100,11 +82,11 @@ def plotBA():
     return response
 
 
-@app.route('/plot'+ticker_INTC+'.png')
+@app.route('/plot' + tickers.ticker_INTC + '.png')
 def plotINTC():
-    fig = Figure()
+    fig = Figure(figsize=(10, 7))
     p = fig.add_subplot(1, 1, 1)
-    close = fetcher_INTC['Close']
+    close = predict_INTC.df[['Close']]
     p.plot(close)
     canvas = FigureCanvas(fig)
     output = BytesIO()
@@ -116,7 +98,7 @@ def plotINTC():
 
 @app.route('/plotPred_MSFT.png')
 def plotPredMSFT():
-    fig = Figure()
+    fig = Figure(figsize=(10, 7))
     p = fig.add_subplot(1, 1, 1)
     p.plot(predict_MSFT.df['Forecast'])
     canvas = FigureCanvas(fig)
@@ -129,7 +111,7 @@ def plotPredMSFT():
 
 @app.route('/plotPred_DS.png')
 def plotPredDS():
-    fig = Figure()
+    fig = Figure(figsize=(10, 7))
     p = fig.add_subplot(1, 1, 1)
     p.plot(predict_DIS.df['Forecast'])
     canvas = FigureCanvas(fig)
@@ -142,7 +124,7 @@ def plotPredDS():
 
 @app.route('/plotPred_BA.png')
 def plotPredBA():
-    fig = Figure()
+    fig = Figure(figsize=(10, 7))
     p = fig.add_subplot(1, 1, 1)
     p.plot(predict_BA.df['Forecast'])
     canvas = FigureCanvas(fig)
@@ -155,7 +137,7 @@ def plotPredBA():
 
 @app.route('/plotPred_INTC.png')
 def plotPredINTC():
-    fig = Figure()
+    fig = Figure(figsize=(10, 7))
     p = fig.add_subplot(1, 1, 1)
     p.plot(predict_INTC.df['Forecast'])
     canvas = FigureCanvas(fig)
@@ -167,4 +149,4 @@ def plotPredINTC():
 
 
 if __name__ == '__main__':
-    app.run(port=4242)
+    app.run(debug=True, port=4242, use_reloader=False)
