@@ -7,38 +7,35 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-  <script>
-
-  </script>
 </head>
 <body>
 
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="home">{{ headTitle }}</a>
+      <a class="navbar-brand" href="projections">{{ headTitle }}</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="home">Home</a></li>
-      <li><a href="predict">View Predictions</a></li>
+      <li><a href="projections">Projections</a></li>
+      <li class="active"><a href="predict">Predictions</a></li>
       <li><a href="trends">Current Trends</a></li>
-      <li><a href="graph">Graphs</a></li>
+      <li><a href="custom">Custom Predictor</a></li>
     </ul>
   </div>
 </nav>
 
 <div class="container">
-  <h3>Overview of various Stock Projections</h3>
+  <h3>Overview of various Stock Predictions</h3>
+  <h4>Forcast Horizon - {{forcastPeriod}} days</h4>
   <p></p>
   <div class="row">
     <div class="col-xl-12 col-lg-12 col-md-12">
       <div class="col-sm-6">
-      <img src="/plotMSFT.png" width="500" alt="my plot"></img>
+      <img src="/plotPred_MSFT.png" width="500" alt="my plot"></img>
       <p align="center">{{ tickerMS }} - {{ descMSFT }}</p>
       </div>
       <div class="col-sm-6">
-      <img src="/plotDIS.png" width="500" alt="my plot"></img>
+      <img src="/plotPred_DS.png" width="500" alt="my plot"></img>
       <p align="center">{{ tickerDS }} - {{ descDIS }}</p>
       </div>
 
@@ -48,11 +45,11 @@
     <div class="row">
     <div class="col-xl-12 col-lg-12 col-md-12">
       <div class="col-sm-6">
-      <img src="/plotBA.png" width="500" alt="my plot"></img>
+      <img src="/plotPred_BA.png" width="500" alt="my plot"></img>
       <p align="center">{{ tickerBA }} - {{ descBA }}</p>
       </div>
       <div class="col-sm-6">
-      <img src="/plotINTC.png" width="500" alt="my plot"></img>
+      <img src="/plotPred_INTC.png" width="500" alt="my plot"></img>
       <p align="center">{{ tickerINTC }} - {{ descINTC }}</p>
       </div>
 
@@ -60,7 +57,6 @@
   </div>
 
 </div>
-
 
 </body>
 </html>
