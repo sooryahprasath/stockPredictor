@@ -12,7 +12,7 @@ from assets import tickers
 
 #Get the stock data
 ticker = tickers.custom_TICK
-print("custom file"+ticker)
+print("LSTM file"+ticker)
 df = quandl.get(ticker, api_key=config.key)
 #Plot a intial graph
 df.Close.plot()

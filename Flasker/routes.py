@@ -1,12 +1,11 @@
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
-from flask import Flask, render_template, make_response, request, url_for
+from flask import Flask, render_template, make_response, request
 from io import BytesIO
-import os
-from predictions import predict_DIS, predict_BA, predict_MSFT, predict_INTC
+from predictions.LinearRegression import predict_INTC, predict_MSFT, predict_DIS, predict_BA
 from assets import config, decorators, tickers
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 
 # Json Capturing from quandl
@@ -24,8 +23,10 @@ def home():
 
 
 @app.route('/predict')
-def predict():
-    return render_template('predict.html', headTitle=decorators.title, tickerMS=tickers.ticker_MSFT,
+def predictLSTM():
+    from predictions.LSTM import predict_INTC_LSTM, predict_DIS_LSTM, predict_BA_LSTM, predict_MSFT_LSTM
+
+    return render_template('Predictions/predict.html', headTitle=decorators.title, tickerMS=tickers.ticker_MSFT,
                            tickerDS=tickers.ticker_DIS, tickerBA=tickers.ticker_BA, tickerINTC=tickers.ticker_INTC,
                            descMSFT=decorators.ticker_MSFTDESC, descDIS=decorators.ticker_DISDESC,
                            descBA=decorators.ticker_BADESC, descINTC=decorators.ticker_INTCDESC,
@@ -45,7 +46,7 @@ def custom():
         print("routes file"+customTicker)
         tickers.custom_TICK = customTicker
 
-    return render_template('graph.html', headTitle=decorators.title, ticker=tickers.custom_TICK,)
+    return render_template('custom.html', headTitle=decorators.title, ticker=tickers.custom_TICK,)
 
 
 @app.route('/plot' + tickers.ticker_MSFT + '.png')

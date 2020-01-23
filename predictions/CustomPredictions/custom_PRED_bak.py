@@ -1,15 +1,19 @@
 #Install the dependencies
-import quandl
+import datetime
 import matplotlib.pyplot as plt
 import numpy as np
+import quandl
 from sklearn.linear_model import LinearRegression
-from sklearn.svm import SVR
 from sklearn.model_selection import train_test_split
-import datetime
-from assets import config, tickers
+from sklearn.svm import SVR
+from assets import config
+from Flasker import routes
+from assets import tickers
 
 #Get the stock data
-df = quandl.get("EOD/"+tickers.ticker_DIS, api_key=config.key)
+ticker = tickers.custom_TICK
+print("LSTM file"+ticker)
+df = quandl.get(ticker, api_key=config.key)
 #Plot a intial graph
 df.Close.plot()
 #plt.show()
@@ -103,3 +107,6 @@ plt.xlabel('Date')
 plt.ylabel('Price')
 #plt.show()
 #print(svm_prediction)
+print("After Comp "+ticker)
+
+

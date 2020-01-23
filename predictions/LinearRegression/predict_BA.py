@@ -9,7 +9,7 @@ import datetime
 from assets import config, tickers
 
 #Get the stock data
-df = quandl.get("EOD/"+tickers.ticker_BA, api_key=config.key)
+df = quandl.get(tickers.ticker_BA, api_key=config.key)
 #Plot a intial graph
 df.Close.plot()
 #plt.show()
