@@ -22,11 +22,11 @@ def home():
                            descBA=decorators.ticker_BADESC, descINTC=decorators.ticker_INTCDESC)
 
 
-@app.route('/predict')
-def predictLSTM():
-    from predictions.LSTM import predict_INTC_LSTM, predict_DIS_LSTM, predict_BA_LSTM, predict_MSFT_LSTM
-
-    return render_template('Predictions/predict.html', headTitle=decorators.title, tickerMS=tickers.ticker_MSFT,
+@app.route('/analysis')
+def analysis():
+    from predictions.LSTM import predict_MSFT_LSTM, predict_BA_LSTM, predict_DIS_LSTM, predict_INTC_LSTM
+    from predictions.CNN import predict_MSFT_CNN, predict_BA_CNN, predict_DIS_CNN, predict_INTC_CNN
+    return render_template('analysis.html', headTitle=decorators.title, tickerMS=tickers.ticker_MSFT,
                            tickerDS=tickers.ticker_DIS, tickerBA=tickers.ticker_BA, tickerINTC=tickers.ticker_INTC,
                            descMSFT=decorators.ticker_MSFTDESC, descDIS=decorators.ticker_DISDESC,
                            descBA=decorators.ticker_BADESC, descINTC=decorators.ticker_INTCDESC,
@@ -160,7 +160,7 @@ def plotPredINTC():
 @app.route('/customPREDClose.png')
 def plotCustomPREDClose():
     print("PRED CLOSE CALL")
-    from predictions import custom_PRED
+    from predictions.CustomPredictions import custom_PRED
     fig = Figure(figsize=(10, 7))
     p = fig.add_subplot(1, 1, 1)
     p.plot(custom_PRED.df['Close'])
@@ -176,7 +176,7 @@ def plotCustomPREDClose():
 @app.route('/customPREDForecast.png')
 def plotCustomPREDForecast():
     print("PRED FORE CALL")
-    from predictions import custom_PRED
+    from predictions.CustomPredictions import custom_PRED
     fig = Figure(figsize=(10, 7))
     p = fig.add_subplot(1, 1, 1)
     p.plot(custom_PRED.df['Forecast'])

@@ -186,8 +186,8 @@ def forecast():
 
 
 results = []
-for i in range(simulation_size):
-    p=print('simulation %d'%(i + 1))
+#for i in range(simulation_size):
+    #p=print('simulation %d'%(i + 1))
     #results.append(forecast())
 
 
