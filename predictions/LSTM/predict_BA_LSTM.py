@@ -21,15 +21,15 @@ sns.set()
 tf.compat.v1.random.set_random_seed(1234)
 
 ticker = tickers.ticker_BA
-df = quandl.get(ticker, api_key=config.key)#
-#print(df.head())
+df = quandl.get(ticker, api_key=config.key)
+##print(df.head())
 
 minmax = MinMaxScaler().fit(df.iloc[:, 4:5].astype('float32')) # Close index
 df_log = minmax.transform(df.iloc[:, 4:5].astype('float32')) # Close index
-df_log = pd.DataFrame(df_log)#
-#print(df_log.head())
+df_log = pd.DataFrame(df_log)
+##print(df_log.head())
 
-test_size = 30
+test_size = config.horizon
 simulation_size = 10
 
 df_train = df_log.iloc[:-test_size]
@@ -187,7 +187,7 @@ def forecast():
 
 results = []
 #for i in range(simulation_size):
-   #p=print('simulation %d'%(i + 1))
+    #p =print('simulation %d'%(i + 1))
     #results.append(forecast())
 
 

@@ -29,7 +29,7 @@ df_log = pd.DataFrame(df_log)
 df_log.head()
 
 
-test_size = 30
+test_size = config.horizon
 simulation_size = 10
 
 df_train = df_log.iloc[:-test_size]

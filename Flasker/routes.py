@@ -4,6 +4,7 @@ from flask import Flask, render_template, make_response, request
 from io import BytesIO
 from predictions.LinearRegression import predict_INTC, predict_MSFT, predict_DIS, predict_BA
 from assets import config, decorators, tickers
+import os
 
 app = Flask(__name__, static_folder='static')
 
@@ -26,6 +27,7 @@ def home():
 def analysis():
     from predictions.LSTM import predict_MSFT_LSTM, predict_BA_LSTM, predict_DIS_LSTM, predict_INTC_LSTM
     from predictions.CNN import predict_MSFT_CNN, predict_BA_CNN, predict_DIS_CNN, predict_INTC_CNN
+    from predictions.LinearRegression import predict_MSFT, predict_BA, predict_DIS, predict_INTC
     return render_template('analysis.html', headTitle=decorators.title, tickerMS=tickers.ticker_MSFT,
                            tickerDS=tickers.ticker_DIS, tickerBA=tickers.ticker_BA, tickerINTC=tickers.ticker_INTC,
                            descMSFT=decorators.ticker_MSFTDESC, descDIS=decorators.ticker_DISDESC,
@@ -38,6 +40,34 @@ def trends():
     return render_template('trends.html', headTitle=decorators.title)
 
 
+@app.route('/settings', methods=["GET", "POST"])
+def settings():
+
+    if request.method == 'POST':
+        if request.form.get('changeHorizon'):
+            changeDays = request.form.get('changeHorizon')
+            print("routes file", changeDays)
+            config.horizon = int(changeDays)
+            print("config file", int(config.horizon))
+
+        elif request.form.get('clearCache'):
+            os.remove("static/png/CNN/PlotPredBA_CNN.png")
+            os.remove("static/png/CNN/PlotPredDIS_CNN.png")
+            os.remove("static/png/CNN/PlotPredINTC_CNN.png")
+            os.remove("static/png/CNN/PlotPredMSFT_CNN.png")
+            os.remove("static/png/LSTM/PlotPredBA_LSTM.png")
+            os.remove("static/png/LSTM/PlotPredDS_LSTM.png")
+            os.remove("static/png/LSTM/PlotPredINTC_LSTM.png")
+            os.remove("static/png/LSTM/PlotPredMSFT_LSTM.png")
+            os.remove("static/png/LRG/PlotPredBA_LRG.png")
+            os.remove("static/png/LRG/PlotPredDIS_LRG.png")
+            os.remove("static/png/LRG/PlotPredINTC_LRG.png")
+            os.remove("static/png/LRG/PlotPredMSFT_LRG.png")
+            print("deleted")
+
+    return render_template('settings.html', headTitle=decorators.title, forcastPeriod=config.horizon)
+
+
 @app.route('/custom', methods=["GET", "POST"])
 def custom():
 
@@ -46,7 +76,7 @@ def custom():
         print("routes file"+customTicker)
         tickers.custom_TICK = customTicker
 
-    return render_template('custom.html', headTitle=decorators.title, ticker=tickers.custom_TICK,)
+    return render_template('custom.html', headTitle=decorators.title, ticker=tickers.custom_TICK)
 
 
 @app.route('/plot' + tickers.ticker_MSFT + '.png')
@@ -97,58 +127,6 @@ def plotINTC():
     p = fig.add_subplot(1, 1, 1)
     close = predict_INTC.df[['Close']]
     p.plot(close)
-    canvas = FigureCanvas(fig)
-    output = BytesIO()
-    canvas.print_png(output)
-    response = make_response(output.getvalue())
-    response.mimetype = 'image/png'
-    return response
-
-
-@app.route('/plotPred_MSFT.png')
-def plotPredMSFT():
-    fig = Figure(figsize=(10, 7))
-    p = fig.add_subplot(1, 1, 1)
-    p.plot(predict_MSFT.df['Forecast'])
-    canvas = FigureCanvas(fig)
-    output = BytesIO()
-    canvas.print_png(output)
-    response = make_response(output.getvalue())
-    response.mimetype = 'image/png'
-    return response
-
-
-@app.route('/plotPred_DS.png')
-def plotPredDS():
-    fig = Figure(figsize=(10, 7))
-    p = fig.add_subplot(1, 1, 1)
-    p.plot(predict_DIS.df['Forecast'])
-    canvas = FigureCanvas(fig)
-    output = BytesIO()
-    canvas.print_png(output)
-    response = make_response(output.getvalue())
-    response.mimetype = 'image/png'
-    return response
-
-
-@app.route('/plotPred_BA.png')
-def plotPredBA():
-    fig = Figure(figsize=(10, 7))
-    p = fig.add_subplot(1, 1, 1)
-    p.plot(predict_BA.df['Forecast'])
-    canvas = FigureCanvas(fig)
-    output = BytesIO()
-    canvas.print_png(output)
-    response = make_response(output.getvalue())
-    response.mimetype = 'image/png'
-    return response
-
-
-@app.route('/plotPred_INTC.png')
-def plotPredINTC():
-    fig = Figure(figsize=(10, 7))
-    p = fig.add_subplot(1, 1, 1)
-    p.plot(predict_INTC.df['Forecast'])
     canvas = FigureCanvas(fig)
     output = BytesIO()
     canvas.print_png(output)

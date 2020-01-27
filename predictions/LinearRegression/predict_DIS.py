@@ -74,32 +74,9 @@ for i in lr_prediction:
     next_date = datetime.datetime.fromtimestamp(next_unix)
     next_unix += 86400
     df.loc[next_date] = [np.nan for _ in range(len(df.columns)-1)]+[i]
-af = df['Close']
-af.plot()
-bf = df['Forecast']
-bf.plot()
-plt.legend(loc=4)
+plt.figure(figsize=(10, 7))
+plt.plot(df['Forecast'])
+plt.legend()
 plt.xlabel('Date')
 plt.ylabel('Price')
-#plt.show()
-#print(lr_prediction)
-
-# Print support vector regressor model predictions for the next '30' days
-svm_prediction = svr_rbf.predict(x_forecast)
-df['Forecast'] = np.nan
-last_date = df.iloc[-1].name
-last_unix = last_date.timestamp()
-one_day = 86400
-next_unix = last_unix + one_day
-
-for i in svm_prediction:
-    next_date = datetime.datetime.fromtimestamp(next_unix)
-    next_unix += 86400
-    df.loc[next_date] = [np.nan for _ in range(len(df.columns)-1)]+[i]
-df['Close'].plot()
-df['Forecast'].plot()
-plt.legend(loc=4)
-plt.xlabel('Date')
-plt.ylabel('Price')
-#plt.show()
-#print(svm_prediction)
+plt.savefig('static/png/LRG/PlotPredDIS_LRG.png')

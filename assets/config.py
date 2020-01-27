@@ -1,2 +1,2 @@
 key = "PVFkPt8nSNtyGxSFUaSm"
-horizon = 30
+horizon = int(30)

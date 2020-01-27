@@ -29,7 +29,7 @@ df_log = minmax.transform(df.iloc[:, 4:5].astype('float32')) # Close index
 df_log = pd.DataFrame(df_log)
 ##print(df_log.head())
 
-test_size = 30
+test_size = config.horizon
 simulation_size = 10
 
 df_train = df_log.iloc[:-test_size]
