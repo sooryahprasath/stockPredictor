@@ -2,6 +2,7 @@
 import quandl
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from sklearn.model_selection import train_test_split
@@ -11,7 +12,7 @@ from assets import config, tickers
 #Get the stock data
 df = quandl.get(tickers.ticker_MSFT, api_key=config.key)
 #Plot a intial graph
-df.Close.plot()
+#df.Close.plot()
 #plt.show()
 
 df = df[['Close']]
@@ -76,6 +77,7 @@ for i in lr_prediction:
     df.loc[next_date] = [np.nan for _ in range(len(df.columns)-1)]+[i]
 plt.figure(figsize=(10, 7))
 plt.plot(df['Forecast'])
+#pd.DataFrame(df['Forecast']).plot()
 plt.legend()
 plt.xlabel('Date')
 plt.ylabel('Price')

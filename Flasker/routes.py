@@ -1,8 +1,9 @@
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+import pandas as pd
 from flask import Flask, render_template, make_response, request
 from io import BytesIO
-from predictions.LinearRegression import predict_INTC, predict_MSFT, predict_DIS, predict_BA
+from projections import projectBA, projectDIS, projectINTC, projectMSFT
 from assets import config, decorators, tickers
 import os
 
@@ -83,7 +84,7 @@ def custom():
 def plotMSFT():
     fig = Figure(figsize=(10, 7))
     p = fig.add_subplot(1, 1, 1)
-    close = predict_MSFT.df[['Close']]
+    close = projectMSFT.df[['Close']]
     p.plot(close)
     canvas = FigureCanvas(fig)
     output = BytesIO()
@@ -97,7 +98,7 @@ def plotMSFT():
 def plotDS():
     fig = Figure(figsize=(10, 7))
     p = fig.add_subplot(1, 1, 1)
-    close = predict_DIS.df[['Close']]
+    close = projectDIS.df[['Close']]
     p.plot(close)
     canvas = FigureCanvas(fig)
     output = BytesIO()
@@ -111,7 +112,7 @@ def plotDS():
 def plotBA():
     fig = Figure(figsize=(10, 7))
     p = fig.add_subplot(1, 1, 1)
-    close = predict_BA.df[['Close']]
+    close = projectBA.df[['Close']]
     p.plot(close)
     canvas = FigureCanvas(fig)
     output = BytesIO()
@@ -125,7 +126,7 @@ def plotBA():
 def plotINTC():
     fig = Figure(figsize=(10, 7))
     p = fig.add_subplot(1, 1, 1)
-    close = predict_INTC.df[['Close']]
+    close = projectINTC.df[['Close']]
     p.plot(close)
     canvas = FigureCanvas(fig)
     output = BytesIO()
