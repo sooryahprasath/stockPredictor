@@ -196,7 +196,8 @@ accuracies = [calculate_accuracy(df['Close'].iloc[-test_size:].values, r) for r 
 plt.figure(figsize=(10, 7))
 for no, r in enumerate(results):
     plt.plot(r, label = 'forecast %d'%(no + 1))
-plt.plot(df['Close'].iloc[-test_size:].values, c='black')
-plt.legend()
-plt.savefig('static/png/LSTM/PlotPredDS_LSTM.png')
+cls = df['Close'].iloc[-test_size:].values
+#plt.plot(cls, c='black')
+#plt.legend()
+#plt.savefig('static/png/LSTM/PlotPredDS_LSTM.png')
 #plt.show()

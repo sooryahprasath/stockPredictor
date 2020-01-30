@@ -10,7 +10,7 @@ import datetime
 from assets import config, tickers
 
 #Get the stock data
-df = quandl.get(tickers.ticker_DIS, api_key=config.key)
+df = quandl.get(tickers.ticker_INTC, api_key=config.key)
 #Plot a intial graph
 #df.Close.plot()
 #plt.show()
@@ -76,9 +76,11 @@ for i in lr_prediction:
     next_unix += 86400
     df.loc[next_date] = [np.nan for _ in range(len(df.columns)-1)]+[i]
 plt.figure(figsize=(10, 7))
-plt.plot(df['Forecast'])
+cls = df['Forecast']
+#plt.plot(cls)
 #pd.DataFrame(df['Forecast']).plot()
-plt.legend()
-plt.xlabel('Date')
-plt.ylabel('Price')
-plt.savefig('static/png/LRG/PlotPredDIS_LRG.png')
+#plt.legend()
+#plt.xlabel('Date')
+#plt.ylabel('Price')
+#plt.savefig('static/png/LRG/PlotPredINTC_LRG.png')
+
