@@ -30,7 +30,7 @@ df_log = pd.DataFrame(df_log)
 ##print(df_log.head())
 
 test_size = config.horizon
-simulation_size = 10
+simulation_size = config.simSize
 
 df_train = df_log.iloc[:-test_size]
 df_test = df_log.iloc[-test_size:]
@@ -90,13 +90,13 @@ def anchor(signal, weight):
 
 
 
-num_layers = 1
-size_layer = 128
-timestamp = 5
-epoch = 300
-dropout_rate = 0.8
+num_layers = config.numLayers
+size_layer = config.sizeLayer
+timestamp = test_size
+epoch = config.epochRate
+dropout_rate = config.dropOutRate
 future_day = test_size
-learning_rate = 0.01
+learning_rate = config.learnRate
 
 
 def forecast():

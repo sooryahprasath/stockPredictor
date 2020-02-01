@@ -30,7 +30,7 @@ df_log.head()
 
 
 test_size = config.horizon
-simulation_size = 10
+simulation_size = config.simSize
 
 df_train = df_log.iloc[:-test_size]
 df_test = df_log.iloc[-test_size:]
@@ -162,13 +162,13 @@ def anchor(signal, weight):
     return buffer
 
 
-num_layers = 1
-size_layer = 128
+num_layers = config.numLayers
+size_layer = config.sizeLayer
 timestamp = test_size
-epoch = 300
-dropout_rate = 0.7
+epoch = config.epochRate
+dropout_rate = config.dropOutRate
 future_day = test_size
-learning_rate = 1e-3
+learning_rate = config.learnRate
 
 
 def forecast():

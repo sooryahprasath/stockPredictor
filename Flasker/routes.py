@@ -35,7 +35,9 @@ def analysis():
                            tickerDS=tickers.ticker_DIS, tickerBA=tickers.ticker_BA, tickerINTC=tickers.ticker_INTC,
                            descMSFT=decorators.ticker_MSFTDESC, descDIS=decorators.ticker_DISDESC,
                            descBA=decorators.ticker_BADESC, descINTC=decorators.ticker_INTCDESC,
-                           forcastPeriod=config.horizon)
+                           forcastPeriod=config.horizon, simulationSize=config.simSize, epochValue=config.epochRate,
+                           layerCount=config.numLayers, learningRate=config.learnRate, dropRate=config.dropOutRate,
+                           layerSize=config.sizeLayer)
 
 
 @app.route('/trends')
@@ -68,7 +70,9 @@ def settings():
             os.remove('predMSFT_LRG.png')
             print("deleted")
 
-    return render_template('settings.html', headTitle=decorators.title, forcastPeriod=config.horizon)
+    return render_template('settings.html', headTitle=decorators.title, forcastPeriod=config.horizon,
+                           simulationSize=config.simSize, epochValue=config.epochRate,layerCount=config.numLayers,
+                           learningRate=config.learnRate, dropRate=config.dropOutRate,  layerSize=config.sizeLayer)
 
 
 @app.route('/custom', methods=["GET", "POST"])
